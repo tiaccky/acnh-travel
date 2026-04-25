@@ -112,13 +112,15 @@ export const useTripStore = create<TripStore>()(
     }), 
     { 
       name: 'acnh-travel-flow',
-      storage: createJSONStorage(() =>
-        typeof window !== 'undefined'
-          ? idbStorage
-          : {
-            getItem: async () => null,
-        setItem: async () => {},
-        removeItem: async () => {},
-      }
-)}
-);
+      storage: createJSONStorage(() => {
+  if (typeof window === 'undefined') {
+    // SSR fallback (must match StateStorage type)
+    return {
+      getItem: () => null,
+      setItem: () => {},
+      removeItem: () => {},
+    };
+  }
+
+  return idbStorage;
+})
