@@ -23,6 +23,9 @@ export interface Trip {
   bigChecklist: ChecklistItem[]; smallChecklist: ChecklistItem[]; shoppingList: ShoppingItem[]; stickers: Sticker[];
   cashExchanges: CashExchange[];
 }
+if (typeof window === 'undefined') {
+  return undefined as any;
+}
 
 interface TripStore {
   trips: Trip[]; activeTripId: string | null; activeDayIndex: number; exchangeRate: number;
