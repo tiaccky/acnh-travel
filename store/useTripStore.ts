@@ -23,9 +23,6 @@ export interface Trip {
   bigChecklist: ChecklistItem[]; smallChecklist: ChecklistItem[]; shoppingList: ShoppingItem[]; stickers: Sticker[];
   cashExchanges: CashExchange[];
 }
-if (typeof window === 'undefined') {
-  return undefined as any;
-}
 
 interface TripStore {
   trips: Trip[]; activeTripId: string | null; activeDayIndex: number; exchangeRate: number;
@@ -115,7 +112,13 @@ export const useTripStore = create<TripStore>()(
     }), 
     { 
       name: 'acnh-travel-flow',
-      storage: createJSONStorage(() => idbStorage) // 🌟 確保這行使用了 JSON Storage 包裝，以解決 cloning 問題！
-    }
-  )
+      storage: createJSONStorage(() =>
+        typeof window !== 'undefined'
+          ? idbStorage
+          : {
+            getItem: async () => null,
+        setItem: async () => {},
+        removeItem: async () => {},
+      }
+)}
 );
