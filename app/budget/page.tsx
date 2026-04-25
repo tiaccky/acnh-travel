@@ -19,7 +19,7 @@ export default function BudgetPage() {
   const[activeCat, setActiveCat] = useState<{name: string, val: number} | null>(null);
 
   const[isExchangeModalOpen, setIsExchangeModalOpen] = useState(false);
-  const [exchangeForm, setExchangeForm] = useState({ person: 'Big' as 'Big'|'Small', amountHKD: '', amountKRW: '', rate: 0.0058, date: new Date().toISOString().split('T')[0] });
+  const [exchangeForm, setExchangeForm] = useState({ person: 'Big' as 'Big'|'Small'|'Shared', amountHKD: '', amountKRW: '', rate: 0.0058, date: new Date().toISOString().split('T')[0] });
 
   useEffect(() => { setIsMounted(true); window.scrollTo(0, 0); },[]);
 

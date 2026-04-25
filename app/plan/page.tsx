@@ -86,7 +86,7 @@ export default function PlanPage() {
   const [isFabOpen, setIsFabOpen] = useState(false); // 🌟 新增 FAB 選單狀態
 
   const [timeState, setTimeState] = useState({ period: '上午', hour: '10', minute: '00' });
-  const [formData, setFormData] = useState<{location:string, cost:string, type:string, currency:string, paidBy:'Big'|'Small'|'', isShared:boolean, paymentMethod?:'cash'|'card'|null, note:string}>({ location: '', cost: '', type: 'Sightseeing', currency: 'KRW', paidBy: 'Big', isShared: true, paymentMethod: null, note: '' });
+  const [formData, setFormData] = useState<{location:string, cost:string, type:string, currency:string, paidBy:'Big'|'Small'|'Shared', isShared:boolean, paymentMethod?:'cash'|'card'|null, note?:string}>({ location: '', cost: '', type: 'Sightseeing', currency: 'KRW', paidBy: 'Big', isShared: true, paymentMethod: null, note: '' });
   useEffect(() => { setIsMounted(true); window.scrollTo(0,0); fetchExchangeRate(); },[]);
 
   const trip = trips.find(t => t.id === activeTripId) || trips[0];
@@ -285,11 +285,11 @@ export default function PlanPage() {
                         {act.paymentMethod === 'cash' && <Banknote size={14} className="text-green-600" />}
                         {act.paymentMethod === 'card' && <CreditCard size={14} className="text-blue-600" />}
                         {/* 🌟 根據付款人顯示專屬顏色：大寶寶(藍)、小寶寶(粉)、公用(橙) */}
-                        <div className={`w-2.5 h-2.5 rounded-full shadow-inner ${act.paidBy === 'Big' ? 'bg-[#78BCC4]' : act.paidBy === 'Small' ? 'bg-[#F2A3B3]' : 'bg-[#F6C945]'}`} />
+                        <div className={`w-2.5 h-2.5 rounded-full shadow-inner ${act.paidBy === 'Big' ? 'bg-[#78BCC4]' : act.paidBy === 'Small' ? 'bg-[#F2A3B3]' : act.paidBy === 'Shared' ? 'bg-[#F6C945]' : '' }`}/>
                         {act.isShared && <span className="text-[8px] font-black px-1.5 py-[2px] rounded-md bg-[#F6C945] text-[#5C4A3D] leading-none">平分</span>}
                      </div>
                        <p className="text-[13px] font-black text-[#5C4A3D] leading-none">{act.currency === 'KRW' ? '₩' : '$'}{act.cost.toLocaleString()}</p>
-                       <button onClick={() => { setModalMode('EXPENSE'); setEditingAct(act); setFormData({...act, cost: act.cost.toString(), type: act.type, paymentMethod: act.paymentMethod||null}); setIsModalOpen(true); }} className="p-1.5 bg-[#F6F1E8] rounded-md active:bg-[#E2D6C8] ml-1"><Pencil size={12} className="text-[#8A7A6A]" /></button>
+                       <button onClick={() => { setModalMode('EXPENSE'); setEditingAct(act); setFormData({...act, cost: act.cost.toString(), type: act.type, paymentMethod: act.paymentMethod ?? null,}); setIsModalOpen(true); }} className="p-1.5 bg-[#F6F1E8] rounded-md active:bg-[#E2D6C8] ml-1"><Pencil size={12} className="text-[#8A7A6A]" /></button>
                     </div>
                  </div>
                )
