@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'jf-openhuninn';
+  src: url('/fonts/huninn.ttf') format('truetype');
+  font-display: swap;
+}
+
+:root {
+  --acnh-bg-base: #F6F1E8;
+  --acnh-text-main: #5C4A3D;
+}
+
+@layer base {
+  *, html, body, button, input, select, textarea, span, div, p, h1, h2, h3, h4 {
+    font-family: 'jf-openhuninn', 'Arial Rounded MT Bold', sans-serif !important;
+  }
+  body {
+    background-color: var(--acnh-bg-base);
+    /* 🌟 動森風幾何圖樣材質 (波卡圓點) */
+    background-image: radial-gradient(rgba(226, 214, 200, 0.6) 2px, transparent 2px);
+    background-size: 24px 24px;
+    color: var(--acnh-text-main);
+    -webkit-tap-highlight-color: transparent;
+    overflow-x: hidden;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+}
+
+@layer utilities {
+  /* 🌟 強制覆寫所有陰影為 2.5D 純色厚陰影 (Solid Drop Shadows) */
+  .shadow-sm { box-shadow: 2px 2px 0px rgba(92, 74, 61, 0.1) !important; }
+  .shadow-md { box-shadow: 4px 4px 0px rgba(92, 74, 61, 0.15) !important; }
+  .shadow-lg { box-shadow: 6px 6px 0px rgba(92, 74, 61, 0.15) !important; }
+  .shadow-xl { box-shadow: 8px 8px 0px rgba(92, 74, 61, 0.15) !important; }
+  .shadow-2xl { box-shadow: 12px 12px 0px rgba(92, 74, 61, 0.2) !important; }
+}
+
+@layer components {
+ /* 🌟 動森專屬：散落的三角形幾何背景 */
+  .acnh-bg {
+    background-color: var(--acnh-bg-base) !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpath fill='%23B7A99A' fill-opacity='0.15' d='M15 10 l10 15 l-20 0 z' /%3E%3Cpath fill='%23B7A99A' fill-opacity='0.1' d='M50 40 l12 20 l-24 0 z' transform='rotate(30 50 50)' /%3E%3Cpath fill='%23B7A99A' fill-opacity='0.08' d='M20 60 l8 12 l-16 0 z' transform='rotate(-25 20 65)' /%3E%3Cpath fill='%23B7A99A' fill-opacity='0.12' d='M65 10 l7 10 l-14 0 z' transform='rotate(45 65 15)' /%3E%3C/svg%3E") !important;
+  }
+  .acnh-card {
+    background-color: #FBF7F2;
+    border-radius: 20px;
+    border: 3px solid #E2D6C8;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.04), 0 4px 0 #E2D6C8;
+  }
+  .acnh-btn-primary {
+    background-color: #6DBE8A; color: white; border-radius: 9999px; border: 3px solid #4FA76F; box-shadow: 0 4px 0 #4FA76F;
+    display: flex; align-items: center; justify-content: center; font-weight: 900; transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .acnh-btn-primary:active { box-shadow: 0 0 0 #4FA76F; transform: translateY(4px); }
+  .hide-scrollbar::-webkit-scrollbar { display: none; }
+  .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+}
+
+/* 🌟 PDF 匯出極簡約樣式 */
+@media print {
+  body { background: white !important; color: black !important; }
+  nav, .pointer-events-auto, button, .print-hide, .fixed, .acnh-btn-primary { display: none !important; }
+  .acnh-card { border: none !important; box-shadow: none !important; break-inside: avoid; padding: 0 !important; margin-bottom: 12px; background: transparent !important; }
+  * { color: black !important; font-size: 12px !important; }
+  h1 { font-size: 24px !important; margin-bottom: 8px !important; }
+  h2 { font-size: 18px !important; border-bottom: 1px solid #ccc; padding-bottom: 4px; margin-top: 16px !important; margin-bottom: 8px !important; }
+  h3 { font-size: 14px !important; font-weight: bold !important; margin-top: 8px !important; margin-bottom: 4px !important; }
+  .print-text-md { font-size: 14px !important; }
+}
