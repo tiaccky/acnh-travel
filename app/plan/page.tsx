@@ -262,10 +262,6 @@ export default function PlanPage() {
               );
             })}
           </div>
-          
-          <button onClick={() => openNewModal('PLAN')} className="fixed bottom-24 left-6 w-full text-white border-[3px] rounded-full h-12 font-black flex items-center justify-center gap-1 active:translate-y-1 active:shadow-none transition-all text-sm print-hide" style={{ backgroundColor: currentTheme.bg, borderColor: currentTheme.border, boxShadow: `0 4px 0 ${currentTheme.border}` }}>
-            <Plus size={16} strokeWidth={3} /> 新增行程景點
-          </button>
         </section>
 
           <section className="bg-[#FFF3D6] rounded-[24px] p-4 border-[3px] border-[#E2D6C8] shadow-inner space-y-3 mt-4">
