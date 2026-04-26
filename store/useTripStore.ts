@@ -83,8 +83,14 @@ export const useTripStore = create<TripStore>((set, get) => ({
   },
 
   // 🌟 2. Firebase 寫入輔助函式
-  _saveToFirebase: async (trips, customStickers) => {
-    await setDoc(doc(db, "data", TRIP_DOC_ID), { trips, customStickers }, { merge: true });
+   _saveToFirebase: async (trips, customStickers) => {
+    try {
+      // 確保數據是純 JSON，移除所有 undefined
+      const sanitizedData = JSON.parse(JSON.stringify({ trips, customStickers }));
+      await setDoc(doc(db, "data", TRIP_DOC_ID), sanitizedData, { merge: true });
+    } catch (e) {
+      console.error("Firebase 同步失敗，請檢查資料結構:", e);
+    }
   },
 
   // 🌟 3. 狀態更新包裝器 (確保每次修改都同步到雲端)
