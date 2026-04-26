@@ -1,6 +1,6 @@
 // app/page.tsx
 "use client";
-import dynamic from "next/dynamic";
+import HomePage from "./HomeView"; // 直接 import，不使用 dynamic
 
 const HomeView = dynamic(() => import("./HomeView"), {
   ssr: false,
@@ -13,5 +13,5 @@ const HomeView = dynamic(() => import("./HomeView"), {
 });
 
 export default function Page() {
-  return <HomeView />;
+  return <HomePage />;
 }
