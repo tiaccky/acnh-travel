@@ -156,7 +156,7 @@ export default function PlanPage() {
   return (
     <div className="flex flex-col min-h-screen text-base bg-acnh-bg">
       <div className="print-hide">
-        <header className="sticky top-0 z-[50] bg-[#FBF7F2]/95 backdrop-blur-md border-b-[3px] border-[#E2D6C8] pt-8 pb-2 px-4 shadow-sm">
+        <header className="sticky top-0 z-[50] bg-[#FBF7F2]/95 backdrop-blur-md border-b-[3px] border-[#E2D6C8] pt-4 pb-2 px-4 shadow-sm">
           <div className="flex justify-between items-center mb-2 px-1">
             <div className="flex items-center gap-2">
               <Sparkles className="text-[#E2A622]" size={20} />
@@ -263,7 +263,7 @@ export default function PlanPage() {
             })}
           </div>
           
-          <button onClick={() => openNewModal('PLAN')} className="w-full text-white border-[3px] rounded-full h-12 font-black flex items-center justify-center gap-1 active:translate-y-1 active:shadow-none transition-all text-sm mt-3 print-hide" style={{ backgroundColor: currentTheme.bg, borderColor: currentTheme.border, boxShadow: `0 4px 0 ${currentTheme.border}` }}>
+          <button onClick={() => openNewModal('PLAN')} className="fixed bottom-24 left-6 w-full text-white border-[3px] rounded-full h-12 font-black flex items-center justify-center gap-1 active:translate-y-1 active:shadow-none transition-all text-sm print-hide" style={{ backgroundColor: currentTheme.bg, borderColor: currentTheme.border, boxShadow: `0 4px 0 ${currentTheme.border}` }}>
             <Plus size={16} strokeWidth={3} /> 新增行程景點
           </button>
         </section>
