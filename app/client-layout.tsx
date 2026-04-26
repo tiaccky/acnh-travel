@@ -27,25 +27,29 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
   if (!mounted) return <div className="min-h-screen bg-[#F6F1E8]" />;
 
  const handleAddSticker = (url: string) => {
-    if (activeTripId) {
-      let currentDayIndex: number | undefined = undefined; 
+  // 🌟 自動抓取最後有效的 Trip ID，防止因為 ID 為空而新增失敗
+  const targetId = activeTripId || (trips.length > 0 ? trips[0].id : null);
+    if (targetId) {
+    let currentDayIndex: number | undefined = undefined;
+    
+    if (pathname === '/plan') currentDayIndex = activeDayIndex;
+    if (pathname === '/toolbox') {
+      const tab = localStorage.getItem('toolboxTab') || 'PACKING';
+      currentDayIndex = tab === 'SHOPPING' ? 1 : tab === 'MEMORIES' ? 2 : 0;
+    }
       
-      if (pathname === '/plan') currentDayIndex = activeDayIndex;
-      if (pathname === '/toolbox') {
-        const tab = localStorage.getItem('toolboxTab') || 'PACKING';
-        currentDayIndex = tab === 'SHOPPING' ? 1 : tab === 'MEMORIES' ? 2 : 0;
-      }
-      
-      // 🌟 1. 先建立基礎的貼紙物件 (不包含 dayIndex)
       const newSticker: any = { 
-        id: Date.now().toString(), 
-        url, 
-        x: window.innerWidth / 2 - 40, 
-        y: window.innerHeight / 2 - 40, 
-        scale: 1, 
-        rotate: 0, 
-        pagePath: pathname 
-      };
+      id: Date.now().toString(), url, x: window.innerWidth / 2 - 40, y: window.innerHeight / 2 - 40, 
+      scale: 1, rotate: 0, pagePath: pathname 
+    };
+    if (currentDayIndex !== undefined) newSticker.dayIndex = currentDayIndex;
+
+    addSticker(targetId, newSticker); // 使用 targetId
+    setStickerDrawerOpen(false);
+  } else {
+    alert("請先到首頁選擇或建立一個行程！🏝️");
+  }
+};
 
       // 🌟 2. 只有當 currentDayIndex 真的有算出數字時，才把這個屬性掛上去
       if (currentDayIndex !== undefined) {
