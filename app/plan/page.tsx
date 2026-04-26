@@ -367,7 +367,7 @@ export default function PlanPage() {
       </div>
 
 {/* 🌟 完美對齊：設定為 bottom-[172px]，與貼圖按鈕保持完美的 12px 間距 */}
-      <div className="fixed bottom-[172px] left-6 z-[990] print-hide flex flex-col items-start gap-3">
+      <div className="fixed bottom-[128px] left-4 z-[990] print-hide flex flex-col items-start gap-3">
         {isFabOpen && <div className="fixed inset-0 z-[990]" onClick={() => setIsFabOpen(false)} onTouchStart={() => setIsFabOpen(false)} />}
         
         <AnimatePresence>
