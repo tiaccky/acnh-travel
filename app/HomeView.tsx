@@ -45,8 +45,8 @@ export default function HomePage() {
     return { statusText, diffDays, foodCount, photoCount };
   };
 
-  return (
-    <div className="px-6 pt-20 pb-32 min-h-screen relative z-10 print-hide">
+   return (
+    <div className="px-6 pt-20 min-h-screen relative z-10 print-hide pb-[calc(8rem+env(safe-area-inset-bottom))] select-none [-webkit-tap-highlight-color:transparent]">
       <header className="mb-8">
         <div className="inline-flex items-center gap-2 bg-[#FFF3D6] border-2 border-[#E2D6C8] px-3 py-1 rounded-full mb-3 shadow-[0_2px_0_#E2D6C8]">
           <Leaf className="text-[#6DBE8A]" size={14} fill="currentColor" />
@@ -84,8 +84,18 @@ export default function HomePage() {
 
         <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
           <DialogTrigger asChild><button className="w-full acnh-btn-primary py-4 mt-4 text-base flex gap-2"><Plus size={20} strokeWidth={4} /> 規劃新行程</button></DialogTrigger>
-          <DialogContent showCloseButton={false} className="rounded-t-[32px] p-0 bg-[#FBF7F2] w-full bottom-0 top-auto translate-y-0 border-t-[4px] border-x-[4px] border-[#E2D6C8] shadow-[0_-10px_40px_rgba(0,0,0,0.1)] max-h-[85vh] flex flex-col">
-            <DialogHeader className="sr-only"><DialogTitle>設定</DialogTitle><DialogDescription>設定目的地</DialogDescription></DialogHeader>
+          <className="rounded-t-[32px] p-0 bg-[#FBF7F2] w-full bottom-0 top-auto translate-y-0 border-t-[4px] border-x-[4px] border-[#E2D6C8] shadow-[0_-10px_40px_rgba(0,0,0,0.1)] max-h-[85vh] flex flex-col pb-[env(safe-area-inset-bottom)]"
+          >
+            <DialogHeader className="sr-only">
+              <DialogTitle>設定</DialogTitle>
+              <DialogDescription>設定目的地</DialogDescription>
+            </DialogHeader>
+            
+            {/* 🌟 UX新增：手機端常見的抽屜拖拽提示線 (Handlebar) */}
+            <div className="w-full flex justify-center pt-3 pb-1" aria-hidden="true">
+              <div className="w-12 h-1.5 bg-[#E2D6C8] rounded-full"></div>
+            </div>
+
             <div className="p-6 overflow-y-auto pb-40">
               <div className="flex justify-between items-center mb-6">
                 <h3 className="text-xl font-black text-[#5C4A3D] ml-2">出發去哪裡？ ✈️</h3>
