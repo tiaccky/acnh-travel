@@ -62,18 +62,6 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
     }
   };
 
-      // 🌟 2. 只有當 currentDayIndex 真的有算出數字時，才把這個屬性掛上去
-      if (currentDayIndex !== undefined) {
-        newSticker.dayIndex = currentDayIndex;
-      }
-
-      addSticker(activeTripId, newSticker);
-      setStickerDrawerOpen(false);
-    } else {
-      alert("請先到首頁選擇或建立一個行程，才能在島上貼貼紙喔！🏝️");
-    }
-  };
-
   const handleUploadSticker = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
