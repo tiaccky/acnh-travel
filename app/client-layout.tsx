@@ -27,6 +27,10 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
   if (!mounted) return <div className="min-h-screen bg-[#F6F1E8]" />;
 
  const handleAddSticker = (url: string) => {
+  if (e) {
+    e.stopPropagation(); // 🌟 阻止冒泡，防止觸發底下的關閉邏輯
+    e.preventDefault();  // 🌟 阻止預設行為 (手機特有)
+  }
     // 1. 自動抓取最後有效的 Trip ID，防止因為 ID 為空而新增失敗
     const targetId = activeTripId || (trips.length > 0 ? trips[0].id : null);
 
@@ -92,7 +96,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
             
             <div className="grid grid-cols-4 gap-2 max-h-[250px] overflow-y-auto pr-1 hide-scrollbar">
               {DEFAULT_STICKERS.map((url, i) => (
-                <button key={`def-${i}`} onClick={() => handleAddSticker(url)} className="p-2 bg-white rounded-xl border-2 border-[#E2D6C8] active:scale-95 transition-transform aspect-square flex items-center justify-center">
+                <button key={`def-${i}`} onClick={(e) => handleAddSticker(url, e)} className="p-2 bg-white rounded-xl border-2 border-[#E2D6C8] active:scale-95 transition-transform aspect-square flex items-center justify-center">
                   <img src={url} className="w-full h-full object-contain" onError={(e) => { e.currentTarget.parentElement!.style.display = 'none'; }} />
                 </button>
               ))}
