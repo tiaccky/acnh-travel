@@ -60,10 +60,15 @@ export default function StickerCanvas() {
         <div className="fixed bottom-24 left-5 right-5 z-[1000] bg-[#FBF7F2] p-4 rounded-2xl border-[3px] border-[#E2D6C8] shadow-2xl flex justify-between items-center print-hide">
           <span className="text-[10px] font-black text-[#8A7A6A]">編輯貼圖</span>
           <div className="flex gap-2">
-            <button onClick={() => { const s = trip.stickers.find(x=>x.id===activeStickerId); if(s) updateSticker(trip.id, activeStickerId, { scale: Math.max(0.5, (s.scale||1)-0.2) }); }} className="p-2 bg-white rounded-lg border-2 border-[#E2D6C8]"><ZoomOut size={20} /></button>
-            <button onClick={() => { const s = trip.stickers.find(x=>x.id===activeStickerId); if(s) updateSticker(trip.id, activeStickerId, { scale: Math.min(3, (s.scale||1)+0.2) }); }} className="p-2 bg-white rounded-lg border-2 border-[#E2D6C8]"><ZoomIn size={20} /></button>
-            <button onClick={() => { removeSticker(trip.id, activeStickerId); setActiveStickerId(null); }} className="p-2 bg-[#F28482] text-white rounded-lg border-2 border-[#D68192]"><Trash2 size={20} /></button>
-          </div>
+  <button onClick={() => { const s = trip.stickers.find(x=>x.id===activeStickerId); if(s) updateSticker(trip.id, activeStickerId, { scale: Math.max(0.5, (s.scale||1)-0.2) }); }} className="p-2 bg-white rounded-lg border-2 border-[#E2D6C8]"><ZoomOut size={20} /></button>
+  <button onClick={() => { const s = trip.stickers.find(x=>x.id===activeStickerId); if(s) updateSticker(trip.id, activeStickerId, { scale: Math.min(3, (s.scale||1)+0.2) }); }} className="p-2 bg-white rounded-lg border-2 border-[#E2D6C8]"><ZoomIn size={20} /></button>
+  
+  {/* 🌟 補上旋轉 */}
+  <button onClick={() => { const s = trip.stickers.find(x=>x.id===activeStickerId); if(s) updateSticker(trip.id, activeStickerId, { rotate: (s.rotate||0) - 15 }); }} className="p-2 bg-[#FFF3D6] rounded-lg border-2 border-[#E2D6C8]"><RotateCcw size={20} /></button>
+  <button onClick={() => { const s = trip.stickers.find(x=>x.id===activeStickerId); if(s) updateSticker(trip.id, activeStickerId, { rotate: (s.rotate||0) + 15 }); }} className="p-2 bg-[#FFF3D6] rounded-lg border-2 border-[#E2D6C8]"><RotateCw size={20} /></button>
+  
+  <button onClick={() => { removeSticker(trip.id, activeStickerId); setActiveStickerId(null); }} className="p-2 bg-[#F28482] text-white rounded-lg border-2 border-[#D68192]"><Trash2 size={20} /></button>
+</div>
         </div>
       )}
     </>

@@ -156,8 +156,8 @@ export default function PlanPage() {
   return (
     <div className="flex flex-col min-h-screen text-base bg-acnh-bg">
       <div className="print-hide">
-        <header className="sticky top-0 z-[50] bg-[#FBF7F2]/95 backdrop-blur-md border-b-[3px] border-[#E2D6C8] pt-12 pb-2 px-4 shadow-sm">
-          <div className="flex justify-between items-center mb-3 px-1">
+        <header className="sticky top-0 z-[50] bg-[#FBF7F2]/95 backdrop-blur-md border-b-[3px] border-[#E2D6C8] pt-8 pb-2 px-4 shadow-sm">
+          <div className="flex justify-between items-center mb-2 px-1">
             <div className="flex items-center gap-2">
               <Sparkles className="text-[#E2A622]" size={20} />
               <h1 className="text-xl font-black text-[#5C4A3D]">{trip?.title}</h1>

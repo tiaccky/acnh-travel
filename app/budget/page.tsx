@@ -222,9 +222,9 @@ export default function BudgetPage() {
 
       {/* 🌟 加入 z-[9999] 保證蓋過導航列 */}
       <Dialog open={isExchangeModalOpen} onOpenChange={setIsExchangeModalOpen}>
-        <DialogContent showCloseButton={false} className="rounded-t-[32px] p-0 bg-[#FBF7F2] w-full bottom-0 top-auto translate-y-0 border-t-[4px] border-x-[4px] border-[#E2D6C8] shadow-[0_-10px_40px_rgba(0,0,0,0.1)] max-h-[85vh] flex flex-col z-[9999] pb-safe print-hide">
+        <DialogContent showCloseButton={false} className="rounded-t-[32px] p-0 bg-[#FBF7F2] w-full bottom-0 top-auto translate-y-0 border-t-[4px] border-x-[4px] border-[#E2D6C8] shadow-[0_-10px_40px_rgba(0,0,0,0.1)] max-h-[90vh] flex flex-col z-[9999] pb-safe print-hide">
           
-          <div className="p-6 overflow-y-auto pb-32">
+          <div className="flex-1 overflow-visible p-6 pb-32"> 
             <DialogHeader className="sr-only"><DialogTitle>換匯</DialogTitle><DialogDescription>輸入現金</DialogDescription></DialogHeader>
             <div className="flex justify-between items-center mb-6">
               <h3 className="text-xl font-black text-[#5C4A3D]">新增現金換匯 💱</h3>
