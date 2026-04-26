@@ -13,13 +13,16 @@ const DraggableSticker = ({ sticker, tripId, isActive, setIsActive }: { sticker:
 
   return (
     <motion.div
-      drag dragMomentum={false}
-      onDragEnd={(_, info) => updateSticker(tripId, sticker.id, { x: sticker.x + info.offset.x, y: sticker.y + info.offset.y })}
-      initial={{ x: sticker.x, y: sticker.y }} animate={{ x: sticker.x, y: sticker.y }}
-      onPointerDown={(e) => { e.stopPropagation(); setIsActive(sticker.id); }} // 🌟 點擊貼圖啟動
-      className="absolute pointer-events-auto touch-none"
-      style={{ zIndex: isActive ? 950 : 40, left: 0, top: 0 }}
-    >
+  drag={!isActive} // 🌟 只有在非編輯狀態才允許拖曳，點擊編輯時鎖定位置
+  dragMomentum={false}
+  onDragEnd={(_, info) => updateSticker(tripId, sticker.id, { x: sticker.x + info.offset.x, y: sticker.y + info.offset.y })}
+  onTap={(e) => { 
+    e.stopPropagation(); 
+    setIsActive(sticker.id); 
+  }} // 🌟 改用 onTap，它是 framer-motion 最穩定的點擊觸發器
+  className="absolute z-[40] touch-none"
+  style={{ x: sticker.x, y: sticker.y }} // 🌟 移除 initial/animate，改用 style 驅動性能更好
+>
       {/* 🌟 貼圖本體 */}
       <div style={{ width: 100, height: 100, transform: `scale(${localVisual.scale}) rotate(${localVisual.rotate}deg)`, transformOrigin: 'center' }}>
         <img src={sticker.url} className={`w-full h-full object-contain pointer-events-none select-none transition-all ${isActive ? 'ring-2 ring-dashed ring-[#E2A622] rounded-[12px]' : ''}`} />
