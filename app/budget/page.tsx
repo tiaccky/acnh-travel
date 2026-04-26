@@ -13,6 +13,18 @@ const CAT_INFO: Record<string, { label: string, color: string, icon: any }> = {
   CVS: { label: '便利店', color: '#10B981', icon: Store }, Transport: { label: '交通', color: '#4A90E2', icon: Bus }, TopUp: { label: '充值', color: '#F5D372', icon: CreditCard }, Other: { label: '其他', color: '#F2A3B3', icon: Heart }
 };
 
+// 🌟 移到這裡，這是一個獨立的元件
+const DelayedPie = ({ data }: { data: any[] }) => {
+  const [show, setShow] = useState(false);
+  useEffect(() => { const timer = setTimeout(() => setShow(true), 150); return () => clearTimeout(timer); }, []);
+  if (!show) return <div className="w-full h-[100px] flex items-center justify-center text-[10px] text-[#B7A99A]">載入圖表中...</div>;
+  return (
+    <ResponsiveContainer width="100%" height="100%">
+      <PieChart><Pie data={data} innerRadius={25} outerRadius={45} paddingAngle={4} dataKey="value" stroke="none">{data.map((e,i) => <Cell key={i} fill={e.color} />)}</Pie></PieChart>
+    </ResponsiveContainer>
+  );
+};
+
 export default function BudgetPage() {
   const { trips, activeTripId, exchangeRate, addCashExchange, deleteCashExchange } = useTripStore();
   const[activeCat, setActiveCat] = useState<{name: string, val: number} | null>(null);
@@ -74,26 +86,6 @@ export default function BudgetPage() {
 
   const bigPieData = Object.keys(categoryTotals.Big).length ? Object.entries(categoryTotals.Big).map(([k, v]) => ({ name: k, value: v.local, color: CAT_INFO[k]?.color || '#000' })) :[{ name: '無', value: 1, color: '#E2D6C8' }];
   const smallPieData = Object.keys(categoryTotals.Small).length ? Object.entries(categoryTotals.Small).map(([k, v]) => ({ name: k, value: v.local, color: CAT_INFO[k]?.color || '#000' })) :[{ name: '無', value: 1, color: '#E2D6C8' }];
-
-const DelayedPie = ({ data }: { data: any[] }) => {
-  const [show, setShow] = useState(false);
-  useEffect(() => { const timer = setTimeout(() => setShow(true), 150); return () => clearTimeout(timer); }, []);
-  
-  if (!show) return <div className="w-full h-[100px] flex items-center justify-center text-[10px] text-[#B7A99A]">載入圖表中...</div>;
-
-  useEffect(() => {
-  return () => {
-    <ResponsiveContainer width="100%" height="100%">
-      <PieChart>
-        <Pie data={data} innerRadius={25} outerRadius={45} paddingAngle={4} dataKey="value" stroke="none">
-          {data.map((e, i) => <Cell key={i} fill={e.color} />)}
-        </Pie>
-      </PieChart>
-    </ResponsiveContainer>
-  setActiveCat(null);
-  };
-}, []);
-};
 
 // 然後在原本放 <ResponsiveContainer> 的地方，直接改用 <DelayedPie data={bigPieData} />
 
@@ -185,9 +177,6 @@ const DelayedPie = ({ data }: { data: any[] }) => {
           <p className="text-[10px] font-black text-[#8A7A6A] mb-4">HK$ {bigPaid.toFixed(0)}</p>
           <div className="w-full h-[100px] mb-6 cursor-pointer">
             <DelayedPie data={bigPieData} />
-              {/* 🌟 修復: 加上 e: any 以及預設字串，確保 Vercel TypeScript 不會報錯 */}
-              <PieChart><Pie onClick={(e: any) => setActiveCat({name: e.name || '其他', val: e.value || 0})} data={bigPieData} innerRadius={25} outerRadius={45} paddingAngle={4} dataKey="value" stroke="none">{bigPieData.map((e,i) => <Cell key={i} fill={e.color} />)}</Pie></PieChart>
-            </DelayedPie>
           </div>
           
           <div className="w-full space-y-1.5 border-t-2 border-dashed border-[#E2D6C8] pt-3">
@@ -207,10 +196,7 @@ const DelayedPie = ({ data }: { data: any[] }) => {
           <h3 className="text-xs font-black text-[#F2A3B3] mb-2 bg-[#F2A3B3]/20 px-3 py-1 rounded-full">小寶寶</h3>
           <p className="text-[10px] font-black text-[#8A7A6A] mb-4">HK$ {smallPaid.toFixed(0)}</p>
           <div className="w-full h-[100px] mb-6 cursor-pointer">
-            <DelayedPie data={bigPieData} />
-              {/* 🌟 修復: 加上 e: any 以及預設字串 */}
-              <PieChart><Pie onClick={(e: any) => setActiveCat({name: e.name || '其他', val: e.value || 0})} data={smallPieData} innerRadius={25} outerRadius={45} paddingAngle={4} dataKey="value" stroke="none">{smallPieData.map((e,i) => <Cell key={i} fill={e.color} />)}</Pie></PieChart>
-            </DelayedPie>
+            <DelayedPie data={smallPieData} />
           </div>
           
           <div className="w-full space-y-1.5 border-t-2 border-dashed border-[#E2D6C8] pt-3">
