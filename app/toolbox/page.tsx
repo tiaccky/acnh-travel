@@ -156,8 +156,6 @@ if (!trip) {
     window.scrollTo(0,0);
   };
 
-  if (!isMounted || !trip) return null;
-
   const formatItemText = (text: string) => {
     let cleanText = text.replace(/[，、]/g, '/').replace(/（/g, '(').replace(/）/g, ')');
     const parts = cleanText.split('(');

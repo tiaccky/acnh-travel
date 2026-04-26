@@ -89,6 +89,8 @@ export default function PlanPage() {
   const [formData, setFormData] = useState<{location:string, cost:string, type:string, currency:string, paidBy:'Big'|'Small'|'Shared', isShared:boolean, paymentMethod?:'cash'|'card'|null, note?:string}>({ location: '', cost: '', type: 'Sightseeing', currency: 'KRW', paidBy: 'Big', isShared: true, paymentMethod: null, note: '' });
   useEffect(() => { setIsMounted(true); window.scrollTo(0,0); fetchExchangeRate(); },[]);
 
+  const trip = trips.find(t => t.id === activeTripId) || trips[0];
+  
 // 🌟 加上防呆畫面，如果連一個行程都沒有，提示去首頁建立
 if (!trip) {
   return (
