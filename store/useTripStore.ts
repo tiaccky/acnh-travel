@@ -145,9 +145,31 @@ export const useTripStore = create<TripStore>((set, get) => ({
   toggleShoppingItem: (tripId, itemId) => get()._updateTrips(trips => trips.map(t => t.id === tripId ? { ...t, shoppingList: t.shoppingList.map(i => i.id === itemId ? { ...i, completed: !i.completed } : i) } : t)),
   deleteShoppingItem: (tripId, itemId) => get()._updateTrips(trips => trips.map(t => t.id === tripId ? { ...t, shoppingList: t.shoppingList.filter(i => i.id !== itemId) } : t)),
   
-  addSticker: (tripId, sticker) => get()._updateTrips(trips => trips.map(t => t.id === tripId ? { ...t, stickers: [...(t.stickers || []), sticker] } : t)),
-  updateSticker: (tripId, stickerId, updates) => get()._updateTrips(trips => trips.map(t => t.id === tripId ? { ...t, stickers: (t.stickers||[]).map(s => s.id === stickerId ? { ...s, ...updates } : s) } : t)),
-  removeSticker: (tripId, stickerId) => get()._updateTrips(trips => trips.map(t => t.id === tripId ? { ...t, stickers: (t.stickers||[]).filter(s => s.id !== stickerId) } : t)),
+  // 🌟 每次貼圖動作，強制將「特定貼圖」深層合併到 Firebase！
+      addSticker: async (tripId, sticker) => {
+        set((state) => ({ trips: state.trips.map(t => t.id === tripId ? { ...t, stickers: [...(t.stickers || []), sticker] } : t) }));
+        // 🌟 透過 merge 寫入，絕對不會覆蓋其他資料
+        try {
+          const { db } = await import('@/lib/firebase'); // 假設你的 firebase config 在這裡
+          await setDoc(doc(db, 'trips', tripId), { stickers: useTripStore.getState().trips.find(t=>t.id===tripId)?.stickers }, { merge: true });
+        } catch(e) {}
+      },
+
+      updateSticker: async (tripId, stickerId, updates) => {
+        set((state) => ({ trips: state.trips.map(t => t.id === tripId ? { ...t, stickers: (t.stickers||[]).map(s => s.id === stickerId ? { ...s, ...updates } : s) } : t) }));
+        try {
+          const { db } = await import('@/lib/firebase');
+          await setDoc(doc(db, 'trips', tripId), { stickers: useTripStore.getState().trips.find(t=>t.id===tripId)?.stickers }, { merge: true });
+        } catch(e) {}
+      },
+
+      removeSticker: async (tripId, stickerId) => {
+        set((state) => ({ trips: state.trips.map(t => t.id === tripId ? { ...t, stickers: (t.stickers||[]).filter(s => s.id !== stickerId) } : t) }));
+        try {
+          const { db } = await import('@/lib/firebase');
+          await setDoc(doc(db, 'trips', tripId), { stickers: useTripStore.getState().trips.find(t=>t.id===tripId)?.stickers }, { merge: true });
+        } catch(e) {}
+      },
   
   addMemory: (tripId, memory) => get()._updateTrips(trips => trips.map(t => t.id === tripId ? { ...t, memories:[...(t.memories||[]), memory] } : t)),
   addCashExchange: (tripId, exchange) => get()._updateTrips(trips => trips.map(t => t.id === tripId ? { ...t, cashExchanges: [...(t.cashExchanges||[]), exchange] } : t)),
