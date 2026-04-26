@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useTripStore, Sticker } from '@/store/useTripStore';
 import { usePathname } from 'next/navigation';
-import { ZoomIn, ZoomOut, Trash2 } from 'lucide-react';
+import { ZoomIn, ZoomOut, RotateCcw, RotateCw, Trash2 } from 'lucide-react';
 
 const DraggableSticker = ({ sticker, tripId, isActive, setIsActive }: { sticker: Sticker, tripId: string, isActive: boolean, setIsActive: (id: string|null) => void }) => {
   const { updateSticker } = useTripStore();
