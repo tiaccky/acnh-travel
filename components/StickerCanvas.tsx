@@ -76,11 +76,15 @@ export default function StickerCanvas() {
       {/* 🌟 只有點背景才會關閉選單 */}
       {activeStickerId && <div className="fixed inset-0 z-[900]" onPointerDown={() => setActiveStickerId(null)} />}
       
-      <div className="absolute inset-0 pointer-events-none z-[40] overflow-hidden min-h-[150vh] print-hide">
-        {pageStickers.map((sticker) => (
-          <DraggableSticker key={sticker.id} sticker={sticker} tripId={trip.id} isActive={activeStickerId === sticker.id} setIsActive={setActiveStickerId} />
-        ))}
-      </div>
+      // StickerCanvas.tsx 內部的 return 區塊
+<div className="absolute inset-0 z-[40] overflow-hidden min-h-[150vh] print-hide">
+  {pageStickers.map((sticker) => (
+    // 確保點擊貼紙時，父層容器不會吃掉事件
+    <div key={sticker.id} className="relative"> 
+      <DraggableSticker key={sticker.id} sticker={sticker} tripId={trip.id} isActive={activeStickerId === sticker.id} setIsActive={setActiveStickerId} />
+        </div>
+  ))}
+</div>
     </>
   );
 }

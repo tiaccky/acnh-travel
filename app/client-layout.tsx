@@ -109,16 +109,22 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
         <StickerIcon size={24} />
       </button>
 
-      <nav className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-md bg-[#FBF7F2] border-[3px] border-[#E2D6C8] z-[999] px-6 py-3 rounded-[24px] shadow-[0_8px_20px_rgba(0,0,0,0.08),_0_6px_0_#E2D6C8] flex justify-between items-center print-hide">
-        {[ { icon: <Home size={24} />, label: "首頁", href: "/" }, { icon: <Calendar size={24} />, label: "行程", href: "/plan" }, { icon: <Wallet size={24} />, label: "帳目", href: "/budget" }, { icon: <Wrench size={24} />, label: "工具", href: "/toolbox" } ].map((item) => {
-          const isActive = pathname === item.href;
-          return (
-            <Link key={item.href} href={item.href} className="flex flex-col items-center gap-1 group">
+      <nav className="fixed bottom-[env(safe-area-inset-bottom, 20px)] left-1/2 -translate-x-1/2 w-[90%] max-w-md bg-[#FBF7F2] border-[3px] border-[#E2D6C8] z-[999] px-6 py-3 rounded-[24px] shadow-[0_8px_20px_rgba(0,0,0,0.08),_0_6px_0_#E2D6C8] flex justify-between items-center print-hide">
+        {[ 
+  { icon: <Home size={24} />, label: "首頁", href: "/" }, 
+  { icon: <Calendar size={24} />, label: "行程", href: "/plan" }, 
+  { icon: <Wallet size={24} />, label: "帳目", href: "/budget" }, 
+  { icon: <Wrench size={24} />, label: "工具", href: "/toolbox" } 
+].map((item) => {
+  // 🌟 修改判斷邏輯：如果 href 是 "/"，才用嚴格相等，否則用 startsWith
+  const isActive = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
+  return (
+    <Link key={item.href} href={item.href} className="flex flex-col items-center gap-1 group">
               <div className={`transition-all duration-300 ${isActive ? "text-[#6DBE8A] -translate-y-1 scale-110" : "text-[#B7A99A]"}`}>{item.icon}</div>
               <span className={`text-[10px] transition-all ${isActive ? "font-black text-[#6DBE8A]" : "font-bold text-[#B7A99A]"}`}>{item.label}</span>
             </Link>
-          );
-        })}
+  );
+})}
       </nav>
     </div>
   );
