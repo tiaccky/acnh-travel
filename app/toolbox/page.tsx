@@ -312,7 +312,7 @@ export default function ToolboxPage() {
         {/* 🌟 購物清單專屬浮動新增按鈕 (在貼圖按鈕正上方) */}
       <AnimatePresence>
         {activeTab === 'SHOPPING' && (
-          <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.8 }} className="fixed bottom-[150px] left-4 z-[800] print-hide">
+          <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.8 }} className="fixed bottom-[160px] left-4 z-[800] print-hide">
             <button onClick={() => { setEditingShopId(null); setShopForm({name:'', priceKRW:'', url:'', notes:'', imageUrl:''}); setIsShopModalOpen(true); }} className="w-12 h-12 bg-[#9575CD] text-white rounded-[16px] border-[3px] border-[#7E57C2] shadow-[0_4px_0_#7E57C2] flex items-center justify-center active:translate-y-1 active:shadow-none transition-all">
               <Plus size={24} strokeWidth={3} />
             </button>

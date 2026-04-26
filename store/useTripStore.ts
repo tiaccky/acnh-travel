@@ -4,13 +4,13 @@ import { getFirestore, doc, onSnapshot, setDoc } from "firebase/firestore";
 
 // 🌟 Firebase 初始化設定
 const firebaseConfig = {
-  apiKey: "AIzaSyBHEm2R9WU27w83CauDug99neN6ZS-abB0",
-  authDomain: "travel-app-6900a.firebaseapp.com",
-  projectId: "travel-app-6900a",
-  storageBucket: "travel-app-6900a.firebasestorage.app",
-  messagingSenderId: "780443204111",
-  appId: "1:780443204111:web:cbab6f034cee0335fb417a",
-  measurementId: "G-8EPVZ726DW"
+   apiKey: "AIzaSyDNG1w_UYhmT1MGdxTdwQbvjtjlnHoaHW8",
+  authDomain: "travel-app-fb492.firebaseapp.com",
+  projectId: "travel-app-fb492",
+  storageBucket: "travel-app-fb492.firebasestorage.app",
+  messagingSenderId: "20774944438",
+  appId: "1:20774944438:web:f41c684837448350597017",
+  measurementId: "G-SXS16VTRCM"
 };
 
 const app = initializeApp(firebaseConfig);
