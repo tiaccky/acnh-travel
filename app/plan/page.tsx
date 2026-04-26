@@ -5,6 +5,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { Input } from "@/components/ui/input";
 import { useTripStore, Activity } from '@/store/useTripStore';
 import { motion, AnimatePresence } from 'framer-motion';
+import { html2pdf } from 'html2pdf.js';
 
 const smartTranslate = (name: string) => { const dict: Record<string, string> = { "甘川洞文化村": "감천문화마을", "Diart Coffee": "디아트커피", "釜山塔": "부산타워", "海雲台": "해운대", "味贊王": "맛찬들" }; return dict[name] || name; };
 
@@ -90,7 +91,7 @@ export default function PlanPage() {
   useEffect(() => { setIsMounted(true); window.scrollTo(0,0); fetchExchangeRate(); },[]);
 
   const trip = trips.find(t => t.id === activeTripId) || trips[0];
-  
+
 // 🌟 加上防呆畫面，如果連一個行程都沒有，提示去首頁建立
 if (!trip) {
   return (
@@ -143,6 +144,18 @@ if (!trip) {
       updateDiary(trip.id, activeDayIndex, { [`photos${person}`]: [...existingPhotos, compressedBase64] });
     }
   };
+
+  const handleExportPDF = () => {
+  const element = document.getElementById('printable-content'); // 🌟 我們等等要給 PDF 區塊這個 ID
+  const opt = {
+    margin: 0.5,
+    filename: `${trip.title}.pdf`,
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2 },
+    jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+  };
+  html2pdf().set(opt).from(element).save();
+};
 
   const CardFallingEffect = ({ type }: { type: string }) => {
     const cat = CATEGORIES_PLAN.find(c => c.id === type); if (!cat || !cat.imgs) return null;
@@ -348,7 +361,7 @@ if (!trip) {
         </main>
       </div>
 
-      <div className="hidden print:block p-8 bg-white text-black w-full min-h-screen font-sans">
+      <div id="printable-content" className="p-8 bg-white text-black w-full min-h-screen font-sans hidden">
         <h1 className="text-2xl font-black mb-2">{trip?.title}</h1>
         <p className="text-[12px] text-gray-500 mb-6 border-b border-gray-300 pb-2">{trip?.startDate} ~ {trip?.endDate}</p>
         {trip?.dailyItinerary?.map(day => (
