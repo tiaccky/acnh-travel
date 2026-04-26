@@ -6,7 +6,6 @@ import { usePathname } from 'next/navigation';
 import StickerCanvas from '@/components/StickerCanvas';
 import { useTripStore } from '@/store/useTripStore';
 
-// 自動產生貼圖路徑
 const CUSTOM_STICKER_COUNT = 30;
 const DEFAULT_STICKERS = Array.from({ length: CUSTOM_STICKER_COUNT }, (_, i) => `/stickers/${i + 1}.png`);
 
@@ -15,23 +14,23 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
   const [mounted, setMounted] = useState(false);
   const [isStickerDrawerOpen, setStickerDrawerOpen] = useState(false);
   
-  // 🌟 1. 從 store 中取出 initFirebase
   const { trips, activeTripId, addSticker, activeDayIndex, customStickers, addCustomSticker, removeCustomSticker, initFirebase } = useTripStore();
 
   useEffect(() => { 
     setMounted(true); 
-    // 🌟 2. 啟動 Firebase 雲端同步！
     initFirebase();
   }, []);
 
   if (!mounted) return <div className="min-h-screen bg-[#F6F1E8]" />;
 
- const handleAddSticker = (url: string, e?: React.MouseEvent | React.TouchEvent) => {
-  if (e) {
-    e.stopPropagation(); // 🌟 阻止冒泡，防止觸發底下的關閉邏輯
-    e.preventDefault();  // 🌟 阻止預設行為 (手機特有)
-  }
-    // 1. 自動抓取最後有效的 Trip ID，防止因為 ID 為空而新增失敗
+  // 🌟 核心修復：統一處理新增貼圖，保證在手機與電腦上都不會失效
+  const handleAddSticker = (url: string, e?: React.MouseEvent | React.TouchEvent) => {
+    // 🌟 強制攔截所有事件，防止點擊穿透到關閉遮罩
+    if (e) {
+      e.stopPropagation(); 
+      if (e.type === 'touchend') e.preventDefault(); // 只有在手機 touchend 時才防止預設行為
+    }
+
     const targetId = activeTripId || (trips.length > 0 ? trips[0].id : null);
 
     if (targetId) {
@@ -57,11 +56,9 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
         newSticker.dayIndex = currentDayIndex;
       }
 
-      // 執行新增動作
       addSticker(targetId, newSticker);
-      setStickerDrawerOpen(false);
+      setStickerDrawerOpen(false); // 成功新增後再關閉抽屜
     } else {
-      // 錯誤處理
       alert("請先到首頁選擇或建立一個行程，才能在島上貼貼紙喔！🏝️");
     }
   };
@@ -86,34 +83,57 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
 
       {isStickerDrawerOpen && (
         <>
-          <div className="fixed inset-0 z-[990]" onClick={() => setStickerDrawerOpen(false)} />
-          {/* 🌟 3. 貼圖選單配合按鈕往下和往左移 (bottom-[160px] left-4) */}
+          {/* 🌟 點擊背景空白處關閉，使用 onClick 與 onTouchEnd 雙重綁定 */}
+          <div 
+            className="fixed inset-0 z-[990]" 
+            onClick={() => setStickerDrawerOpen(false)} 
+            onTouchEnd={(e) => { e.preventDefault(); setStickerDrawerOpen(false); }}
+          />
           <div className="fixed bottom-[160px] left-4 bg-[#FBF7F2] p-4 rounded-[20px] border-[3px] border-[#E2D6C8] shadow-xl z-[1000] w-[280px] print-hide">
             <div className="flex justify-between items-center mb-3">
               <span className="text-xs font-black text-[#7A5C3E]">選擇專屬貼紙 ✨</span>
-              <button onClick={() => setStickerDrawerOpen(false)}><X size={16} className="text-[#B7A99A]"/></button>
+              <button 
+                onClick={() => setStickerDrawerOpen(false)} 
+                onTouchEnd={(e) => { e.preventDefault(); setStickerDrawerOpen(false); }}
+              >
+                <X size={16} className="text-[#B7A99A]"/>
+              </button>
             </div>
             
             <div className="grid grid-cols-4 gap-2 max-h-[250px] overflow-y-auto pr-1 hide-scrollbar">
               {DEFAULT_STICKERS.map((url, i) => (
-                <button key={`def-${i}`} onClick={(e) => handleAddSticker(url, e)} className="p-2 bg-white rounded-xl border-2 border-[#E2D6C8] active:scale-95 transition-transform aspect-square flex items-center justify-center">
-                  <img src={url} className="w-full h-full object-contain" onError={(e) => { e.currentTarget.parentElement!.style.display = 'none'; }} />
+                <button 
+                  key={`def-${i}`} 
+                  // 🌟 核心修復：同時綁定 onClick (電腦用) 和 onTouchEnd (手機用)！
+                  onClick={(e) => handleAddSticker(url, e)} 
+                  onTouchEnd={(e) => handleAddSticker(url, e)}
+                  className="p-2 bg-white rounded-xl border-2 border-[#E2D6C8] active:scale-95 transition-transform aspect-square flex items-center justify-center cursor-pointer"
+                >
+                  <img src={url} className="w-full h-full object-contain pointer-events-none" onError={(e) => { e.currentTarget.parentElement!.style.display = 'none'; }} />
                 </button>
               ))}
               
               {customStickers?.map((url, i) => (
                 <div key={`cus-${i}`} className="relative p-2 bg-white rounded-xl border-2 border-[#E2D6C8] active:scale-95 transition-transform aspect-square flex items-center justify-center">
-                  <button onClick={() => handleAddSticker(url)} className="w-full h-full">
-                    <img src={url} className="w-full h-full object-contain" />
+                  <button 
+                    onClick={(e) => handleAddSticker(url, e)} 
+                    onTouchEnd={(e) => handleAddSticker(url, e)}
+                    className="w-full h-full cursor-pointer"
+                  >
+                    <img src={url} className="w-full h-full object-contain pointer-events-none" />
                   </button>
-                  <button onClick={(e) => { e.stopPropagation(); removeCustomSticker(url); }} className="absolute top-1 right-1 bg-[#F28482]/80 backdrop-blur-md text-white rounded-full p-1 shadow-sm z-50 active:scale-90">
+                  <button 
+                    onClick={(e) => { e.stopPropagation(); removeCustomSticker(url); }} 
+                    onTouchEnd={(e) => { e.preventDefault(); e.stopPropagation(); removeCustomSticker(url); }}
+                    className="absolute top-1 right-1 bg-[#F28482]/80 backdrop-blur-md text-white rounded-full p-1 shadow-sm z-50 active:scale-90"
+                  >
                     <X size={12} strokeWidth={3} />
                   </button>
                 </div>
               ))}
 
               <label className="p-2 bg-[#A8E0BD] rounded-xl border-2 border-[#4FA76F] flex items-center justify-center cursor-pointer text-[#2F7D57] active:scale-95 transition-transform aspect-square">
-                <Plus size={20} strokeWidth={3} />
+                <Plus size={20} strokeWidth={3} className="pointer-events-none" />
                 <input type="file" accept="image/*" className="hidden" onChange={handleUploadSticker} />
               </label>
             </div>
@@ -121,9 +141,9 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
         </>
       )}
 
-      {/* 🌟 4. 左下角貼圖主按鈕往下和往左移 (bottom-[100px] left-4) */}
       <button 
         onClick={() => setStickerDrawerOpen(!isStickerDrawerOpen)} 
+        onTouchEnd={(e) => { e.preventDefault(); setStickerDrawerOpen(!isStickerDrawerOpen); }}
         className="fixed bottom-[100px] left-4 w-12 h-12 bg-[#F6C945] rounded-[16px] border-[3px] border-[#E2A622] flex items-center justify-center text-[#5C4A3D] transition-all z-[999] print-hide"
         style={{
           boxShadow: isStickerDrawerOpen ? 'none' : '0 4px 0 #E2A622',
