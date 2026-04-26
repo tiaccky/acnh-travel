@@ -83,8 +83,16 @@ export default function HomePage() {
         })}
 
         <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-          <DialogTrigger asChild><button className="w-full acnh-btn-primary py-4 mt-4 text-base flex gap-2"><Plus size={20} strokeWidth={4} /> 規劃新行程</button></DialogTrigger>
-          <className="rounded-t-[32px] p-0 bg-[#FBF7F2] w-full bottom-0 top-auto translate-y-0 border-t-[4px] border-x-[4px] border-[#E2D6C8] shadow-[0_-10px_40px_rgba(0,0,0,0.1)] max-h-[85vh] flex flex-col pb-[env(safe-area-inset-bottom)]"
+          <DialogTrigger asChild>
+            <button className="w-full acnh-btn-primary py-4 mt-4 text-base flex gap-2 justify-center items-center active:scale-95 transition-transform">
+              <Plus size={20} strokeWidth={4} /> 規劃新行程
+            </button>
+          </DialogTrigger>
+          
+          {/* 🌟 補回遺失的 DialogContent 標籤名稱 */}
+          <DialogContent 
+            showCloseButton={false}
+            className="rounded-t-[32px] p-0 bg-[#FBF7F2] w-full bottom-0 top-auto translate-y-0 border-t-[4px] border-x-[4px] border-[#E2D6C8] shadow-[0_-10px_40px_rgba(0,0,0,0.1)] max-h-[85vh] flex flex-col pb-[env(safe-area-inset-bottom)]"
           >
             <DialogHeader className="sr-only">
               <DialogTitle>設定</DialogTitle>
