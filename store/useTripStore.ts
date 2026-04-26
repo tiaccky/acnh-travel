@@ -145,29 +145,9 @@ export const useTripStore = create<TripStore>((set, get) => ({
   toggleShoppingItem: (tripId, itemId) => get()._updateTrips(trips => trips.map(t => t.id === tripId ? { ...t, shoppingList: t.shoppingList.map(i => i.id === itemId ? { ...i, completed: !i.completed } : i) } : t)),
   deleteShoppingItem: (tripId, itemId) => get()._updateTrips(trips => trips.map(t => t.id === tripId ? { ...t, shoppingList: t.shoppingList.filter(i => i.id !== itemId) } : t)),
   
-  addSticker: (tripId, sticker) => set((state) => {
-  const nextTrips = state.trips.map(t => t.id === tripId ? { ...t, stickers: [...(t.stickers || []), sticker] } : t);
-  syncToFirebase(nextTrips); // 🌟 每次新增都觸發同步
-  return { trips: nextTrips };
-}),
-
-updateSticker: (tripId, stickerId, updates) => set((state) => {
-  const nextTrips = state.trips.map(t => t.id === tripId ? { 
-    ...t, 
-    stickers: (t.stickers || []).map(s => s.id === stickerId ? { ...s, ...updates } : s) 
-  } : t);
-  syncToFirebase(nextTrips); // 🌟 每次更新(放大/縮小/旋轉/移動)都觸發同步
-  return { trips: nextTrips };
-}),
-
-removeSticker: (tripId, stickerId) => set((state) => {
-  const nextTrips = state.trips.map(t => t.id === tripId ? { 
-    ...t, 
-    stickers: (t.stickers || []).filter(s => s.id !== stickerId) 
-  } : t);
-  syncToFirebase(nextTrips); // 🌟 每次刪除都觸發同步
-  return { trips: nextTrips };
-}),
+  addSticker: (tripId, sticker) => get()._updateTrips(trips => trips.map(t => t.id === tripId ? { ...t, stickers: [...(t.stickers || []), sticker] } : t)),
+  updateSticker: (tripId, stickerId, updates) => get()._updateTrips(trips => trips.map(t => t.id === tripId ? { ...t, stickers: (t.stickers||[]).map(s => s.id === stickerId ? { ...s, ...updates } : s) } : t)),
+  removeSticker: (tripId, stickerId) => get()._updateTrips(trips => trips.map(t => t.id === tripId ? { ...t, stickers: (t.stickers||[]).filter(s => s.id !== stickerId) } : t)),
   
   addMemory: (tripId, memory) => get()._updateTrips(trips => trips.map(t => t.id === tripId ? { ...t, memories:[...(t.memories||[]), memory] } : t)),
   addCashExchange: (tripId, exchange) => get()._updateTrips(trips => trips.map(t => t.id === tripId ? { ...t, cashExchanges: [...(t.cashExchanges||[]), exchange] } : t)),
