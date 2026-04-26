@@ -89,9 +89,16 @@ export default function PlanPage() {
   const [formData, setFormData] = useState<{location:string, cost:string, type:string, currency:string, paidBy:'Big'|'Small'|'Shared', isShared:boolean, paymentMethod?:'cash'|'card'|null, note?:string}>({ location: '', cost: '', type: 'Sightseeing', currency: 'KRW', paidBy: 'Big', isShared: true, paymentMethod: null, note: '' });
   useEffect(() => { setIsMounted(true); window.scrollTo(0,0); fetchExchangeRate(); },[]);
 
-  const trip = trips.find(t => t.id === activeTripId) || trips[0];
-  if (!trip) return <div className="min-h-screen bg-acnh-bg p-10 text-center font-bold text-[#8A7A6A] pt-24">尚未建立行程 🏝️</div>;
-  if (!isMounted) return null;
+// 🌟 加上防呆畫面，如果連一個行程都沒有，提示去首頁建立
+if (!trip) {
+  return (
+    <div className="min-h-screen bg-[#F6F1E8] flex flex-col items-center justify-center p-10 text-center gap-4">
+      <div className="text-4xl">🏝️</div>
+      <h2 className="text-xl font-black text-[#5C4A3D]">尚未建立行程</h2>
+      <p className="text-sm font-bold text-[#8A7A6A]">請先到首頁申請一個新的旅行島嶼喔！</p>
+    </div>
+  );
+}
 
   const currentDay = trip?.dailyItinerary?.[activeDayIndex];
   const isKorea = trip?.location?.includes("釜山") || trip?.location?.includes("韓國");

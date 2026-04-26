@@ -129,7 +129,19 @@ export default function ToolboxPage() {
   const [igCaption, setIgCaption] = useState('');
   const pressTimer = useRef<NodeJS.Timeout | null>(null);
 
-  const trip = trips.find(t => t.id === activeTripId);
+ // 🌟 如果找不到 activeTripId，就自動抓 trips 陣列裡的第一個行程
+const trip = trips.find(t => t.id === activeTripId) || trips[0];
+
+// 🌟 加上防呆畫面，如果連一個行程都沒有，提示去首頁建立
+if (!trip) {
+  return (
+    <div className="min-h-screen bg-[#F6F1E8] flex flex-col items-center justify-center p-10 text-center gap-4">
+      <div className="text-4xl">🏝️</div>
+      <h2 className="text-xl font-black text-[#5C4A3D]">尚未建立行程</h2>
+      <p className="text-sm font-bold text-[#8A7A6A]">請先到首頁申請一個新的旅行島嶼喔！</p>
+    </div>
+  );
+}
 
   useEffect(() => { 
     setIsMounted(true); window.scrollTo(0, 0); fetchExchangeRate();
@@ -312,7 +324,7 @@ export default function ToolboxPage() {
         {/* 🌟 購物清單專屬浮動新增按鈕 (在貼圖按鈕正上方) */}
       <AnimatePresence>
         {activeTab === 'SHOPPING' && (
-          <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.8 }} className="fixed bottom-[160px] left-4 z-[800] print-hide">
+          <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.8 }} className="fixed bottom-[16npm0px] left-4 z-[800] print-hide">
             <button onClick={() => { setEditingShopId(null); setShopForm({name:'', priceKRW:'', url:'', notes:'', imageUrl:''}); setIsShopModalOpen(true); }} className="w-12 h-12 bg-[#9575CD] text-white rounded-[16px] border-[3px] border-[#7E57C2] shadow-[0_4px_0_#7E57C2] flex items-center justify-center active:translate-y-1 active:shadow-none transition-all">
               <Plus size={24} strokeWidth={3} />
             </button>
