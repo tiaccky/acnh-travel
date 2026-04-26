@@ -109,7 +109,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
         <StickerIcon size={24} />
       </button>
 
-      <nav className="fixed bottom-[env(safe-area-inset-bottom, 20px)] left-1/2 -translate-x-1/2 w-[90%] max-w-md bg-[#FBF7F2] border-[3px] border-[#E2D6C8] z-[999] px-6 py-3 rounded-[24px] shadow-[0_8px_20px_rgba(0,0,0,0.08),_0_6px_0_#E2D6C8] flex justify-between items-center print-hide">
+      <nav className="fixed bottom-0 left-0 right-0 w-full bg-[#FBF7F2] border-t-[3px] border-[#E2D6C8] z-[999] px-6 py-3 pb-[calc(12px+env(safe-area-inset-bottom))] flex justify-between items-center shadow-[0_-8px_20px_rgba(0,0,0,0.05)] print-hide">
         {[ 
   { icon: <Home size={24} />, label: "首頁", href: "/" }, 
   { icon: <Calendar size={24} />, label: "行程", href: "/plan" }, 
@@ -123,8 +123,8 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
               <div className={`transition-all duration-300 ${isActive ? "text-[#6DBE8A] -translate-y-1 scale-110" : "text-[#B7A99A]"}`}>{item.icon}</div>
               <span className={`text-[10px] transition-all ${isActive ? "font-black text-[#6DBE8A]" : "font-bold text-[#B7A99A]"}`}>{item.label}</span>
             </Link>
-  );
-})}
+          );
+        })}
       </nav>
     </div>
   );
