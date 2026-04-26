@@ -113,14 +113,16 @@ export const useTripStore = create<TripStore>()(
     { 
       name: 'acnh-travel-flow',
       storage: createJSONStorage(() => {
-  if (typeof window === 'undefined') {
-    // SSR fallback (must match StateStorage type)
-    return {
-      getItem: () => null,
-      setItem: () => {},
-      removeItem: () => {},
-    };
-  }
-
-  return idbStorage;
-})
+        if (typeof window === 'undefined') {
+          // SSR fallback (must match StateStorage type)
+          return {
+            getItem: () => null,
+            setItem: () => {},
+            removeItem: () => {},
+          };
+        }
+        return idbStorage;
+      })
+    } // 🌟 補上關閉 persist 設定物件的括號
+  ) // 🌟 補上關閉 persist 函式的括號
+); // 🌟 補上關閉 create 函式的括號與分號
