@@ -26,7 +26,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
 
   if (!mounted) return <div className="min-h-screen bg-[#F6F1E8]" />;
 
- const handleAddSticker = (url: string) => {
+ const handleAddSticker = (url: string, e?: React.MouseEvent | React.TouchEvent) => {
   if (e) {
     e.stopPropagation(); // 🌟 阻止冒泡，防止觸發底下的關閉邏輯
     e.preventDefault();  // 🌟 阻止預設行為 (手機特有)
