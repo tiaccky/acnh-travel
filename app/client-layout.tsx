@@ -28,17 +28,29 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
 
   const handleAddSticker = (url: string) => {
     if (activeTripId) {
-      let currentDayIndex = undefined;
+      // 🌟 1. 將預設值從 undefined 改成 null！這能解決 Firebase 報錯
+      let currentDayIndex: number | null = null; 
+      
       if (pathname === '/plan') currentDayIndex = activeDayIndex;
       if (pathname === '/toolbox') {
         const tab = localStorage.getItem('toolboxTab') || 'PACKING';
         currentDayIndex = tab === 'SHOPPING' ? 1 : tab === 'MEMORIES' ? 2 : 0;
       }
+      
       addSticker(activeTripId, { 
-        id: Date.now().toString(), url, x: window.innerWidth / 2 - 40, y: window.innerHeight / 2 - 40, 
-        scale: 1, rotate: 0, pagePath: pathname, dayIndex: currentDayIndex
+        id: Date.now().toString(), 
+        url, 
+        x: window.innerWidth / 2 - 40, 
+        y: window.innerHeight / 2 - 40, 
+        scale: 1, 
+        rotate: 0, 
+        pagePath: pathname, 
+        dayIndex: currentDayIndex // 🌟 傳入 null，Firebase 就會乖乖收下了
       });
       setStickerDrawerOpen(false);
+    } else {
+      // 🌟 2. 加上防呆提示，避免在沒有 activeTripId 的情況下點擊沒反應
+      alert("請先到首頁選擇或建立一個行程，才能在島上貼貼紙喔！🏝️");
     }
   };
 
