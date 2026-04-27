@@ -238,24 +238,28 @@ export default function BudgetPage() {
                <button onClick={() => setExchangeForm({...exchangeForm, person: 'Shared'})} className={`flex-1 py-2.5 rounded-[12px] text-[11px] font-black transition-all ${exchangeForm.person === 'Shared' ? 'bg-[#F6C945] text-[#5C4A3D] shadow-sm' : 'text-[#8A7A6A]'}`}>公用錢包</button>
              </div>
               
-              <Input type="date" value={exchangeForm.date} onChange={e => setExchangeForm({...exchangeForm, date: e.target.value})} className="rounded-xl bg-white border-2 border-[#E2D6C8] h-14 px-4 text-base font-black shadow-[0_2px_0_#E2D6C8]" />
-              
-              <div className="bg-white border-2 border-[#E2D6C8] rounded-[16px] p-2 pl-3 flex items-center gap-2 shadow-[0_2px_0_#E2D6C8] h-14">
-                 <span className="text-[10px] font-black text-[#8A7A6A]">匯率 1 KRW =</span>
-                 <Input type="number" placeholder="例如 0.0053" value={exchangeForm.rate || ''} onChange={e => { const r = e.target.value; setExchangeForm(prev => ({...prev, rate: r as any, amountKRW: prev.amountHKD ? (Number(prev.amountHKD) / Number(r)).toFixed(0) : prev.amountKRW }))}} className="bg-transparent border-none text-xs font-black flex-1 focus-visible:ring-0 px-1" />
-              </div>
-              
-              <div className="flex gap-2">
-                <div className="bg-white border-2 border-[#E2D6C8] rounded-[16px] p-2 pl-3 flex-1 flex flex-col justify-center shadow-[0_2px_0_#E2D6C8] h-16">
-                   <span className="text-[9px] font-black text-[#B7A99A]">支付 HKD</span>
-                   <Input type="number" placeholder="輸入港幣" value={exchangeForm.amountHKD} onChange={e => { const hkd = e.target.value; setExchangeForm(prev => ({...prev, amountHKD: hkd, amountKRW: prev.rate ? (Number(hkd) / Number(prev.rate)).toFixed(0) : prev.amountKRW }))}} className="bg-transparent border-none text-sm font-black w-full focus-visible:ring-0 p-0 h-6" />
-                </div>
-                <div className="bg-white border-2 border-[#E2D6C8] rounded-[16px] p-2 pl-3 flex-1 flex flex-col justify-center shadow-[0_2px_0_#E2D6C8] h-16">
-                   <span className="text-[9px] font-black text-[#B7A99A]">換得 KRW</span>
-                   <Input type="number" placeholder="輸入韓幣" value={exchangeForm.amountKRW} onChange={e => setExchangeForm({...exchangeForm, amountKRW: e.target.value})} className="bg-transparent border-none text-sm font-black w-full focus-visible:ring-0 p-0 h-6 text-[#E2A622]" />
-                </div>
-              </div>
-            </div>
+               <Input type="date" value={exchangeForm.date} onChange={e => setExchangeForm({...exchangeForm, date: e.target.value})} className="rounded-xl bg-white border-2 border-[#E2D6C8] h-14 px-4 text-base font-black shadow-[0_2px_0_#E2D6C8] w-full min-w-0" />
+  
+  <div className="bg-white border-2 border-[#E2D6C8] rounded-[16px] p-2 pl-3 flex items-center gap-2 shadow-[0_2px_0_#E2D6C8] h-14">
+     {/* 加入 whitespace-nowrap 避免文字被擠壓換行 */}
+     <span className="text-[10px] font-black text-[#8A7A6A] whitespace-nowrap">匯率 1 KRW =</span>
+     {/* 🌟 關鍵修正：加入 min-w-0 與 w-full */}
+     <Input type="number" placeholder="例如 0.0053" value={exchangeForm.rate || ''} onChange={e => { const r = e.target.value; setExchangeForm(prev => ({...prev, rate: r as any, amountKRW: prev.amountHKD ? (Number(prev.amountHKD) / Number(r)).toFixed(0) : prev.amountKRW }))}} className="bg-transparent border-none text-xs font-black flex-1 w-full min-w-0 focus-visible:ring-0 px-1" />
+  </div>
+  
+  <div className="flex gap-2">
+    <div className="bg-white border-2 border-[#E2D6C8] rounded-[16px] p-2 pl-3 flex-1 flex flex-col justify-center shadow-[0_2px_0_#E2D6C8] h-16 min-w-0">
+       <span className="text-[9px] font-black text-[#B7A99A]">支付 HKD</span>
+       {/* 🌟 關鍵修正：加入 min-w-0 */}
+       <Input type="number" placeholder="輸入港幣" value={exchangeForm.amountHKD} onChange={e => { const hkd = e.target.value; setExchangeForm(prev => ({...prev, amountHKD: hkd, amountKRW: prev.rate ? (Number(hkd) / Number(prev.rate)).toFixed(0) : prev.amountKRW }))}} className="bg-transparent border-none text-sm font-black w-full min-w-0 focus-visible:ring-0 p-0 h-6" />
+    </div>
+    <div className="bg-white border-2 border-[#E2D6C8] rounded-[16px] p-2 pl-3 flex-1 flex flex-col justify-center shadow-[0_2px_0_#E2D6C8] h-16 min-w-0">
+       <span className="text-[9px] font-black text-[#B7A99A]">換得 KRW</span>
+       {/* 🌟 關鍵修正：加入 min-w-0 */}
+       <Input type="number" placeholder="輸入韓幣" value={exchangeForm.amountKRW} onChange={e => setExchangeForm({...exchangeForm, amountKRW: e.target.value})} className="bg-transparent border-none text-sm font-black w-full min-w-0 focus-visible:ring-0 p-0 h-6 text-[#E2A622]" />
+    </div>
+  </div>
+</div>
           </div>
           
           {/* 🌟 底部固定儲存按鈕，保證不被遮擋 */}

@@ -115,9 +115,10 @@ export default function HomePage() {
                   <Input placeholder="輸入目的地 (例如：東京)" value={newTrip.location} onChange={e => setNewTrip({...newTrip, location: e.target.value})} className="rounded-xl bg-white border-2 border-[#E2D6C8] h-14 pl-12 pr-4 text-base font-black focus-visible:ring-0 focus-visible:border-[#6DBE8A] shadow-[0_2px_0_#E2D6C8]" />
                 </div>
                 <div className="grid grid-cols-2 gap-3">
-                  <div className="space-y-1.5"><p className="text-[11px] font-black text-[#8A7A6A] ml-2 flex items-center gap-1"><CalendarIcon size={12}/> 出發日</p><Input type="date" value={newTrip.startDate} onChange={e => handleStartDateChange(e.target.value)} className="rounded-xl bg-white border-2 border-[#E2D6C8] h-12 px-3 text-sm font-bold shadow-[0_2px_0_#E2D6C8] focus-visible:ring-0 focus-visible:border-[#6DBE8A]" /></div>
-                  <div className="space-y-1.5"><p className="text-[11px] font-black text-[#8A7A6A] ml-2 flex items-center gap-1"><CalendarIcon size={12}/> 回程日</p><Input type="date" value={newTrip.endDate} onChange={e => setNewTrip({...newTrip, endDate: e.target.value})} className="rounded-xl bg-white border-2 border-[#E2D6C8] h-12 px-3 text-sm font-bold shadow-[0_2px_0_#E2D6C8] focus-visible:ring-0 focus-visible:border-[#6DBE8A]" /></div>
-                </div>
+                  {/* 🌟 加上 w-full min-w-0 確保不撐破 grid */}
+  <div className="space-y-1.5"><p className="text-[11px] font-black text-[#8A7A6A] ml-2 flex items-center gap-1"><CalendarIcon size={12}/> 出發日</p><Input type="date" value={newTrip.startDate} onChange={e => handleStartDateChange(e.target.value)} className="rounded-xl bg-white border-2 border-[#E2D6C8] h-12 px-3 text-sm font-bold shadow-[0_2px_0_#E2D6C8] focus-visible:ring-0 focus-visible:border-[#6DBE8A] w-full min-w-0" /></div>
+  <div className="space-y-1.5"><p className="text-[11px] font-black text-[#8A7A6A] ml-2 flex items-center gap-1"><CalendarIcon size={12}/> 回程日</p><Input type="date" value={newTrip.endDate} onChange={e => setNewTrip({...newTrip, endDate: e.target.value})} className="rounded-xl bg-white border-2 border-[#E2D6C8] h-12 px-3 text-sm font-bold shadow-[0_2px_0_#E2D6C8] focus-visible:ring-0 focus-visible:border-[#6DBE8A] w-full min-w-0" /></div>
+</div>
                 <button onClick={handleCreate} className="w-full acnh-btn-primary h-14 mt-6 text-lg">確認航班！</button>
               </div>
             </div>
