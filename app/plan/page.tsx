@@ -86,8 +86,7 @@ export default function PlanPage() {
   const [isFabOpen, setIsFabOpen] = useState(false); // 🌟 新增 FAB 選單狀態
 
   const [timeState, setTimeState] = useState({ period: '上午', hour: '10', minute: '00' });
-  const [formData, setFormData] = useState<{location:string, cost:string, type:string, currency:string, paidBy:'Big'|'Small'|'Shared', isShared:boolean, paymentMethod?:'cash'|'card'|null, note?:string}>({ location: '', cost: '', type: 'Sightseeing', currency: 'KRW', paidBy: 'Big', isShared: true, paymentMethod: null, note: '' });
-  useEffect(() => { setIsMounted(true); window.scrollTo(0,0); fetchExchangeRate(); },[]);
+  const [formData, setFormData] = useState<{location:string, cost:string, type:string, currency:string, paidBy?:'Big'|'Small'|'Shared'|null, isShared:boolean, paymentMethod?:'cash'|'card'|null, note?:string}>({ location: '', cost: '', type: 'Sightseeing', currency: 'KRW', paidBy: 'Big', isShared: true, paymentMethod: null, note: '' });
 
   const trip = trips.find(t => t.id === activeTripId) || trips[0];
   
