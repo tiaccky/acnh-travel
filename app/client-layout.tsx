@@ -135,7 +135,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
       <button 
         onClick={() => setStickerDrawerOpen(!isStickerDrawerOpen)} 
         onTouchEnd={(e) => { e.preventDefault(); setStickerDrawerOpen(!isStickerDrawerOpen); }}
-        className="fixed bottom-[90px] left-4 w-12 h-12 bg-[#F6C945] rounded-[16px] border-[3px] border-[#E2A622] flex items-center justify-center text-[#5C4A3D] transition-all z-[999] print-hide active:translate-y-1 active:shadow-none shadow-[0_4px_0_#E2A622]"
+        className="fixed bottom-[120px] left-4 w-12 h-12 bg-[#F6C945] rounded-[16px] border-[3px] border-[#E2A622] flex items-center justify-center text-[#5C4A3D] transition-all z-[999] print-hide active:translate-y-1 active:shadow-none shadow-[0_4px_0_#E2A622]"
       >
         <StickerIcon size={24} />
       </button>
