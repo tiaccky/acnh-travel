@@ -81,7 +81,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
             onClick={() => setStickerDrawerOpen(false)} 
             onTouchEnd={(e) => { e.preventDefault(); setStickerDrawerOpen(false); }}
           />
-          <div className="fixed bottom-[160px] left-4 bg-[#FBF7F2] p-4 rounded-[20px] border-[3px] border-[#E2D6C8] shadow-xl z-[1000] w-[280px] print-hide">
+          <div className="fixed bottom-[150px] left-4 bg-[#FBF7F2] p-4 rounded-[20px] border-[3px] border-[#E2D6C8] shadow-xl z-[1000] w-[280px] print-hide">
             <div className="flex justify-between items-center mb-3">
               <span className="text-xs font-black text-[#7A5C3E]">選擇專屬貼紙 ✨</span>
               <button 
@@ -135,7 +135,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
       <button 
         onClick={() => setStickerDrawerOpen(!isStickerDrawerOpen)} 
         onTouchEnd={(e) => { e.preventDefault(); setStickerDrawerOpen(!isStickerDrawerOpen); }}
-        className="fixed bottom-[100px] left-4 w-12 h-12 bg-[#F6C945] rounded-[16px] border-[3px] border-[#E2A622] flex items-center justify-center text-[#5C4A3D] transition-all z-[999] print-hide active:translate-y-1 active:shadow-none shadow-[0_4px_0_#E2A622]"
+        className="fixed bottom-[90px] left-4 w-12 h-12 bg-[#F6C945] rounded-[16px] border-[3px] border-[#E2A622] flex items-center justify-center text-[#5C4A3D] transition-all z-[999] print-hide active:translate-y-1 active:shadow-none shadow-[0_4px_0_#E2A622]"
       >
         <StickerIcon size={24} />
       </button>
